@@ -1,4 +1,2 @@
-description: Blank template for a Hasura project
-keywords: base, getting-started
-name: base
+name: react-native-apollo-todo
 platformVersion: v0.15.3
