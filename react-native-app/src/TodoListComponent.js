@@ -9,7 +9,6 @@ export default graphql(FETCH_TODOS)((props) => {
 
   if (props.data.error) {
     Alert.alert("Error", "Could not fetch todos");
-    console.log(props.data.error);
     return null;
   }
 
