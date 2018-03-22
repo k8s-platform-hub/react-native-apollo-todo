@@ -1,55 +1,71 @@
-# base
+# react-native-apollo-todo
 
-A blank template to be used as a starting point to build projects on Hasura. A "project" is a "gittable" directory in the file system, which captures all the information regarding clusters, services and migrations. It can also be used to keep source code for custom services that you write.
+This is a basic todo app built using React Native. The app uses Hasura for its backend, leveraging the following features of Hasura:
 
-## Files and Directories
+- Hasura Database
+- GraphQL queries provided by Hasura
+- Apollo Client
+- [React Native Auth Boilerplate](https://github.com/hasura/react-native-auth-boilerplate) for authentication.
 
-The project (a.k.a. project directory) has a particular directory structure and it has to be maintained strictly, else `hasura` cli would not work as expected. A representative project is shown below:
+# Pre-requisites
 
-```
-.
-├── hasura.yaml
-├── clusters.yaml
-├── conf
-│   ├── authorized-keys.yaml
-│   ├── auth.yaml
-│   ├── ci.yaml
-│   ├── domains.yaml
-│   ├── filestore.yaml
-│   ├── gateway.yaml
-│   ├── http-directives.conf
-│   ├── notify.yaml
-│   ├── postgres.yaml
-│   ├── routes.yaml
-│   └── session-store.yaml
-├── migrations
-│   ├── 1504788327_create_table_userprofile.down.yaml
-│   ├── 1504788327_create_table_userprofile.down.sql
-│   ├── 1504788327_create_table_userprofile.up.yaml
-│   └── 1504788327_create_table_userprofile.up.sql
-└── microservices 
-    ├── adminer
-    │   └── k8s.yaml
-    └── flask
-        ├── src/
-        ├── k8s.yaml
-        └── Dockerfile
+- Ensure that you have the [HasuraCLI](https://docs.hasura.io/0.15/manual/install-hasura-cli.html) installed on your local machine.
+- Login into Hasura by running the following command on your command shell
+
+```bash
+hasura login
 ```
 
-### `hasura.yaml`
+# Quickstart
 
-This file contains some metadata about the project, namely a name, description and some keywords. Also contains `platformVersion` which says which Hasura platform version is compatible with this project.
+## Getting the project
 
-### `clusters.yaml`
+To get the project, run the following in your command shell:
 
-Info about the clusters added to this project can be found in this file. Each cluster is defined by it's name allotted by Hasura. While adding the cluster to the project you are prompted to give an alias, which is just hasura by default. The `kubeContext` mentions the name of kubernetes context used to access the cluster, which is also managed by hasura. The `config` key denotes the location of cluster's metadata on the cluster itself. This information is parsed and cluster's metadata is appended while conf is rendered. `data` key is for holding custom variables that you can define.
-
-```yaml
-- name: h34-ambitious93-stg
-  alias: hasura
-  kubeContext: h34-ambitious93-stg
-  config:
-    configmap: controller-conf
-    namespace: hasura
-  data: null  
+```bash
+hasura quickstart hasura/react-native-apollo-todo
 ```
+
+## Running the app
+
+1. Add your cluster name to `react-native-app/Hasura.js`. (Run `hasura cluster status` from the root directory to get your cluster name).
+
+```javascript
+const clusterName = "comrade45" //Replace "comrade45" with your cluster name
+```
+
+2. `git push` the project to `hasura` remote to push the local configurations, migrations and deployments to the cluster.
+
+```bash
+$ git add .
+$ git commit -m "First commit"
+$ git push hasura master
+```
+
+3. `cd` into the `react-native-app` directory and install the required node modules.
+
+```
+$ cd react-native-app
+$ npm install
+```
+
+4. Run the app
+
+```
+$ npm start
+```
+
+5. On running the above command, a QR code will be generated in the terminal. Scan it from the Expo app on your phone to try out the app.
+
+>This app is built using Create React Native App. If you do not wish to use Expo for development, just run `npm run eject` from the `react-native-app` directory and you will get the app in the form of a raw `react-native` project.
+
+
+# React Native App Code
+
+The source code for the Todo App lies in the react-native-app directory.
+
+The root component for the `Todo App` is `src/AppScreen.js`.
+
+# Exploring Hasura Features
+
+To explore the Hasura features and learn how to use them, checkout our 20 minute `hello-react` guide [here](https://hasura.io/hub/projects/hasura/hello-react).
