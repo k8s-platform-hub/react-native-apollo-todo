@@ -34,7 +34,7 @@ export default class App extends Component {
             value={this.state.text}
             onChangeText={this.handleTextChange}
             placeholder="Input todo"/>
-          <AddButton task={this.state.text} userId={this.props.session.id}/>
+          <AddButton task={this.state.text} userId={this.props.session.id} handleTextChange={this.handleTextChange}/>
         </View>
         <TodoListComponent />
         <Button title="Logout" onPress={this.props.logoutCallback}/>

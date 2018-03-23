@@ -4,6 +4,7 @@ import { graphql } from 'react-apollo';
 import {Button} from 'react-native';
 
 export default graphql(INSERT_TODO)((props) => {
+
   return (
     <Button
       title="Insert Todo"
@@ -30,6 +31,7 @@ export default graphql(INSERT_TODO)((props) => {
             proxy.writeQuery({query: FETCH_TODOS, data})
           }
         });
+        props.handleTextChange('');
       }}
     />
   );
