@@ -1,4 +1,4 @@
-const clusterName = "h34-applier45-stg";
+const clusterName = "conversion36";
 const useHasuraApis = true;
 
 // modify the configuration below only if userHasuraApis = false

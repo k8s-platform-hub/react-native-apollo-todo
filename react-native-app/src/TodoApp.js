@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, TextInput, Button, View} from 'react-native';
 import { Constants } from 'expo';
-import AddButton from './AddButton';
+import {AddButton} from './AddButton';
 import TodoListComponent from './TodoListComponent';
 
 export default class App extends Component {

@@ -1,39 +1,48 @@
 import React, { Component } from 'react';
 import {UPDATE_TODO, FETCH_TODOS} from './queries';
 import {StyleSheet, Text} from 'react-native';
-import { graphql } from 'react-apollo';
+import { graphql, Mutation } from 'react-apollo';
 
-export default graphql(UPDATE_TODO)((props) => {
+const TodoTextItem = (props) => {
+  const textStyle = props.todo.completed ? styles.completedText : styles.incompleteText;
   return (
-    <Text
-      style={props.todo.completed ? styles.completedText : styles.incompleteText}
-      onPress={() => {
-        props.mutate({
-          variables: { todo_id: props.todo.id, completed: !props.todo.completed },
-          update: (proxy, {data: {update_todos}}) => {
-            const data = proxy.readQuery({ query: FETCH_TODOS});
-            proxy.writeQuery({
-              query: FETCH_TODOS,
-              data: {
-                ...data,
-                todos: data.todos.map((todo) => {
-                  if (todo.id === props.todo.id) {
-                    return {
-                      ...todo,
-                      completed: !todo.completed
-                    }
-                  }
-                  return todo;
-                })
+    <Mutation
+      mutation={UPDATE_TODO}
+      update={(cache) => {
+        const data = cache.readQuery({ query: FETCH_TODOS});
+        cache.writeQuery({
+          query: FETCH_TODOS,
+          data: {
+            ...data,
+            todos: data.topropsdos.map((todo) => {
+              if (todo.id === props.todo.id) {
+                return {
+                  ...todo,
+                  completed: !todo.completed
+                }
               }
+              return todo;
             })
           }
-        });
-    }}>
-      {props.todo.task}
-    </Text>
-  );
-});
+        })
+      }}
+    >
+      <Text
+        style={textStyle}
+        onPress={() => {
+          update_todos({
+            variables: {
+              todo_id: props.todo.id,
+              completed: !props.todo.completed
+            }
+          })
+        }}
+      >
+        {props.todo.task}
+      </Text>
+    </Mutation>
+  )
+}
 
 const styles = StyleSheet.create({
   completedText: {
@@ -44,3 +53,5 @@ const styles = StyleSheet.create({
     flex: 1
   }
 })
+
+export default TodoTextItem;

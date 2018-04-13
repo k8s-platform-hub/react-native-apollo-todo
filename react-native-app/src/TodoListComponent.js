@@ -1,38 +1,43 @@
 import React, { Component } from 'react';
 import {FETCH_TODOS} from './queries';
-import { graphql } from 'react-apollo';
+import { graphql, Query } from 'react-apollo';
 import {FlatList, StyleSheet, Alert, Text, View} from 'react-native';
 import DeleteButton from './DeleteButton';
 import TodoTextItem from './TodoTextItem'
 
-export default graphql(FETCH_TODOS)((props) => {
 
-  if (props.data.error) {
-    Alert.alert("Error", "Could not fetch todos");
-    return null;
-  }
+const TodoListComponent = () => (
+  <Query query={FETCH_TODOS}>
+    {({loading, error, data}) => {
+      if (error) {
+        Alert.alert("Error", "Could not fetch todos");
+        console.log(error);
+        return null;
+      }
 
-  if (props.data.loading) {
-    return (
-      <Text>Please Wait</Text>
-    )
-  }
-
-  return (
-    <FlatList
-      data={props.data.todos}
-      keyExtractor = {(item, index) => index}
-      renderItem={(todoItem) => {
+      if (loading) {
         return (
-          <View style={styles.todoItem} key={todoItem.index}>
-            <TodoTextItem todo={todoItem.item} />
-            <DeleteButton todo={todoItem.item} />
-          </View>
-        );
-      }}
-    />
-  );
-});
+          <Text>Please Wait</Text>
+        )
+      }
+
+      return (
+        <FlatList
+          data={data.todos}
+          keyExtractor = {(item, index) => index}
+          renderItem={(todoItem) => {
+            return (
+              <View style={styles.todoItem} key={todoItem.index}>
+                <TodoTextItem todo={todoItem.item} />
+                <DeleteButton todo={todoItem.item} />
+              </View>
+            );
+          }}
+        />
+      );
+    }}
+  </Query>
+)
 
 const styles = StyleSheet.create({
   todoItem: {
@@ -47,3 +52,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   }
 })
+
+export default TodoListComponent;
