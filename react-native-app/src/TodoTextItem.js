@@ -14,7 +14,7 @@ const TodoTextItem = (props) => {
           query: FETCH_TODOS,
           data: {
             ...data,
-            todos: data.topropsdos.map((todo) => {
+            todos: data.todos.map((todo) => {
               if (todo.id === props.todo.id) {
                 return {
                   ...todo,
@@ -27,19 +27,23 @@ const TodoTextItem = (props) => {
         })
       }}
     >
-      <Text
-        style={textStyle}
-        onPress={() => {
-          update_todos({
-            variables: {
-              todo_id: props.todo.id,
-              completed: !props.todo.completed
-            }
-          })
-        }}
-      >
-        {props.todo.task}
-      </Text>
+      {
+        (update_todos) => (
+          <Text
+            style={textStyle}
+            onPress={() => {
+              update_todos({
+                variables: {
+                  todo_id: props.todo.id,
+                  completed: !props.todo.completed
+                }
+              })
+            }}
+          >
+            {props.todo.task}
+          </Text>
+        )
+      }
     </Mutation>
   )
 }
