@@ -24,7 +24,7 @@ const TodoListComponent = () => (
       return (
         <FlatList
           data={data.todos}
-          keyExtractor = {(item, index) => index}
+          keyExtractor = {(item, index) => index.toString()}
           renderItem={(todoItem) => {
             return (
               <View style={styles.todoItem} key={todoItem.index}>
